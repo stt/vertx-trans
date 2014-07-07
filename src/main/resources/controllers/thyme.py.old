@@ -1,0 +1,35 @@
+import vertx
+from core.event_bus import EventBus
+from middleware import Controller
+from utils import post
+
+logger = vertx.logger()
+
+class LoginHandler(Controller):
+    def register(self, rm):
+        def request_handler(req):
+            params = {
+              "templateName": req.path,
+              "uri": req.uri,
+              "params": req.params,
+              "headers": req.headers,
+              "hello": 'world',
+              "foo": { "man": 'chu' },
+              "one": { "two": { "three": 'four' } },
+              "data1": ['one', 'two', 'three'],
+              "data2": [
+                {"id": 1, "name": 'one'},
+                {"id": 2, "name": 'two'},
+                {"id": 3, "name": 'three'}
+              ]
+            }
+            print params
+           
+            def handle_response(resp):
+              req.response.statusCode = reply.status
+              req.response.end(reply.rendered)
+
+            #EventBus.send('vertx.thymeleaf.parser', params, handle_response)
+
+        rm.get('/thyme', request_handler)
+

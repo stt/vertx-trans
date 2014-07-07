@@ -1,0 +1,5 @@
+lib
+src/main/resources
+target/classes
+target/dependencies
+

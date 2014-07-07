@@ -1,0 +1,78 @@
+{
+  "auth" : {
+    "github.client.id" : "2377e6850d65aa161d1f",
+    "github.client.secret" : "62c8c0af80367464a542c2f4b930499363d4ec7e",
+    "facebook.client.id" : "237185296492490"
+  },
+
+  "mongo-persistor" : {
+    "address": "vertx.mongopersistor",
+    "host": "ds041248.mongolab.com",
+    "port": 41248,
+    "db_name": "trans",
+    //    "pool_size": 10,
+    "username": "stt",
+    "password": "2Ynq2L7STSyzWy"
+  },
+
+  "web-server" : {
+    "port" : 8080,
+    "host" : "localhost",
+    "bridge" : true,
+    "permitted" : [
+      // Allow calls to get static album data from the persistor
+      {
+        "address" : "vertx.mongopersistor",
+        "match" : {
+          "action" : "find",
+          "collection" : "albums"
+        }
+      }
+    ],
+    "inbound_permitted":  [
+        {
+            "address": "vertx.basicauthmanager.login"
+        },
+        {
+            "address": "vertx.mongopersistor",
+            "match": {
+                "action": "find",
+                "collection": "albums"
+            }
+        },
+        {
+            "address": "vertx.mongopersistor",
+            "requires_auth": true,
+            "match": {
+                "action": "save",
+                "collection": "orders"
+            }
+        }
+    ],
+    "outbound_permitted": [
+        {}
+    ]
+  },
+
+  "session-manager" : {
+    "timeout" : 900000,
+    "cleaner" : "test.session-cleanup",
+    "prefix" : "session-client",
+    //"address" : "test.session-manager",
+    "address": "smart.session.manager",
+    "mongo-sessions" : {
+      "address" : "vertx.mongopersistor",
+      "collection" : "vertx_session.sessions"
+    }
+  },
+
+  "thymeleaf" : {
+    "address": "vertx.thymeleaf.parser",
+    "templateDir": "templates",
+    "templateMode": "HTML5",
+    "cacheable": true,
+    "characterEncoding": "UTF-8",
+    "regex": ".*.html"
+  }
+
+}

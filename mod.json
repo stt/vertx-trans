@@ -1,0 +1,5 @@
+{
+  "main": "src/main/resources/app.py",
+  "auto-redeploy": true,
+  "includes": "io.vertx~mod-mongo-persistor~2.1.0,com.campudus~json-schema-validator~1.0.0,com.campudus~session-manager~2.0.1-final"
+}
